@@ -82,7 +82,6 @@ class Article extends Component {
 				<li key={article.article_id}>
             <Link to={`/article/${article.article_id}`}>{article.title}</Link>
           </li>
-
 				))}
 			</ul>
 		);

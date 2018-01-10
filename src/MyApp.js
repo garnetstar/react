@@ -26,18 +26,9 @@ class MyApp extends Component {
 	}
 
 	render() {
-		// console.log(this.state.context);
-		// let toRender = null;
-		// if(this.state.context == 'article') {
-		// 	toRender = <Article />;
-		// } else if(this.state.context == 'personal') {
-		// 	toRender = <Personal />;
-		// }
-		// console.log(toRender);
 		return(
 			<BrowserRouter>
 			<div>
-
 				<Nav bsStyle="tabs" activeKey={this.state.context} onSelect={this.handleChangeContext}>
 				    <RouteNavItem eventKey={'article'} href="/article" title='Article'>Article</RouteNavItem>
 				    <RouteNavItem eventKey={'personal'} href="/personal" title="Personal">Personal</RouteNavItem>
@@ -46,16 +37,11 @@ class MyApp extends Component {
 			<Grid>
 				<Row>
 					<Col sm={12}>
-<Link to='/article/2' >sssss</Link>
 						<Switch>
-						   <Route exact path='/' component={Article}/>
-						  {/* both /roster and /roster/:number begin with /roster */}
-
-
+					   <Route exact path='/' component={Article}/>
 						  <Route path='/article/:number' render={(props) => (<ArticleDetail articleId={props.match.params.number} />)}/>
-									   <Route path='/article' component={Article}/>
-						   <Route path='/personal' component={Personal}/>
-
+							<Route path='/article' component={Article}/>
+						  <Route path='/personal' component={Personal}/>
 						</Switch>
 					</Col>
 				</Row>
