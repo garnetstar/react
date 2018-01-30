@@ -8,6 +8,7 @@ import Layout from './Layout';
 import MarkDownEditor from './MarkDownEditor';
 import registerServiceWorker from './registerServiceWorker';
 import { Button } from 'react-bootstrap';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 // function Start() {
 // 	return(

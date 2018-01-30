@@ -8,12 +8,9 @@ class Article extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			articles: null,
+			gyms: null,
 			isLoaded: false,
-			articleId: null
 		};
-		this.handleClickArticle = this.handleClickArticle.bind(this);
-		this.handleClickList = this.handleClickList.bind(this);
 	}
 
 	componentDidMount() {
@@ -57,6 +54,7 @@ class Article extends Component {
 				return(this.renderDetail());
 			} else {
 				// list of articles
+				console.log(this.state.aaa);
 				return(this.renderList());
 			}
 		} else {
