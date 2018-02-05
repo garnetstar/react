@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { ListGroup, ListGroupItem, Button } from 'react-bootstrap';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import Message from './Message';
+import GymList from './GymList';
 
 class Gym extends Component {
 
@@ -10,65 +12,36 @@ class Gym extends Component {
 		this.state = {
 			isLoaded: false,
 			gyms: null,
-			date: null,
-			gymValue: null,
+			date: '',
+			gymValue: '',
+			message: '',
+			errorMessage: '',
 		};
 		this.handleDate = this.handleDate.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleGymValue = this.handleGymValue.bind(this);
 	}
 
-	componentDidMount() {
-		fetch('/gym')
-			.then(res => res.json())
-			.then((result) => {
-					this.setState({
-						gyms: result,
-						isLoaded: true,
-					})
-				},
-				(error) => {
-					this.setState({
-						isLoaded: true,
-						error
-					});
-				}
-			);
-	}
-
 	render() {
-		if(this.state.error) {
-			return(<b>Error</b>);
-		} else if(this.state.isLoaded === true) {
-			console.log(this.state.gyms);
-			return(
-				this.addForm()
-			);
-		} else {
-			return(<div>Loading...</div>);
-		}
+		return(
+			this.addForm()
+		);
 	}
 
 	handleDate(e) {
-		this.state.date = e.target.value;
+		this.setState({ date: e.target.value });
 	}
 
 	handleGymValue(e) {
-		this.state.gymValue = e.target.value;
+		this.setState({ gymValue: e.target.value });
 	}
 
 	handleSubmit(e) {
-
-		console.log(this.state.gymValue);
-		console.log(this.state.date);
+		this.clearMessages();
 		//syntetic event - po prvním volání přestává existovat
 		const target = e.target;
 		fetch('/gym', {
 				method: 'POST',
-				// headers: {
-				// 	'Accept': 'application/json',
-				// 	'Content-Type': 'application/json',
-				// },
 				body: JSON.stringify({
 					date: this.state.date,
 					value: this.state.gymValue,
@@ -76,22 +49,32 @@ class Gym extends Component {
 				})
 			})
 			.then(function(res) {
-				//po úspěchu resetovat form
-				target.reset();
-
-				console.log(res);
-			})
-			.catch(function(res) { console.log('Error in Gym') })
-
-		// .then(function(res) { res.json().then(function(res2){console.log(res2);}) })
-		// .catch(function(res) { console.log('dddddddddddd') })
-
+				if(res.status === 200) {
+					this.setState({
+						message: 'ok uložení proběhlo v pořádku',
+						gymValue: '',
+						date: '',
+					});
+					console.log('success');
+				} else {
+					this.setState({ errorMessage: res.status + ': ' + res.statusText });
+					console.log(res);
+				}
+			}.bind(this))
+			.catch(function(res) { console.log(res) })
 		e.preventDefault();
 	}
 
 	addForm() {
+		const message = this.state.message;
+		const errorMessage = this.state.errorMessage;
 		return(
+
 			<div>
+				<div>
+					{message !== null && <b>{message}</b>}
+					{errorMessage !== null && <b style={{color: 'red'}}>{errorMessage}</b>}
+				</div>
 					<form onSubmit={this.handleSubmit} className='form-horizontal'>
 						<div className='form-group'>
 							<label htmlFor='dateId' >Date</label>
@@ -102,8 +85,20 @@ class Gym extends Component {
 						<input type='number' onChange={this.handleGymValue} value={this.state.gymValue} />
 						<input type='submit' value='add' />
 					</form>
+
+					<GymList/>
 				</div>
+
+
 		);
+	}
+
+	clearMessages() {
+		console.log('cleaaar');
+		this.setState({
+			message: '',
+			errorMessage: '',
+		});
 	}
 }
 
