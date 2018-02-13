@@ -59,9 +59,14 @@ class GymList extends Component {
 		console.log(items);
 		return(
 			<div>
-			{items.map((item, i) => <div><b>{item.value}</b> {item.date}</div>)}
+			{items.map((item, i) => <div  key={item.gym_id}><b>{item.value}</b> {this.convertTimestamp(item.timestamp)}</div>)}
 		</div>
 		);
+	}
+
+	convertTimestamp(stamp) {
+		var date = new Date(stamp);
+		return date.getDate() + '.' + date.getMonth() + '.' + date.getFullYear();
 	}
 }
 
