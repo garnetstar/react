@@ -16,10 +16,17 @@ class Gym extends Component {
 			gymValue: '',
 			message: '',
 			errorMessage: '',
+			items: null,
+			loadIemsError: null,
 		};
 		this.handleDate = this.handleDate.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleGymValue = this.handleGymValue.bind(this);
+	}
+
+	componentDidMount() {
+		this.loadItems();
+
 	}
 
 	render() {
@@ -55,6 +62,7 @@ class Gym extends Component {
 						gymValue: '',
 						date: '',
 					});
+					this.loadItems();
 					console.log('success');
 				} else {
 					this.setState({ errorMessage: res.status + ': ' + res.statusText });
@@ -86,11 +94,38 @@ class Gym extends Component {
 						<input type='submit' value='add' />
 					</form>
 
-					<GymList/>
+					<GymList items={this.state.items} error={this.state.loadIemsError} />
 				</div>
 
 
 		);
+	}
+
+	loadItems() {
+		fetch('/gym?type=1&order=desc')
+			.then(res => res.json())
+			.then((result) => {
+					if(result.ok === false) {
+						console.log(result);
+						this.setState({
+							loadIemsError: result.status + ' ' + result.statusText,
+						});
+					} else {
+						this.setState({
+							items: result,
+							// isLoaded: true,
+						});
+					}
+				}
+
+				// .catch(error) => {
+				// 	// console.log(error);
+				// 	this.setState({
+				// 		// isLoaded: true,
+				// 		loadIemsError: 'error happend',
+				// 	});
+				// }
+			);
 	}
 
 	clearMessages() {
