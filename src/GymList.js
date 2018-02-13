@@ -58,9 +58,13 @@ class GymList extends Component {
 		const items = this.props.items;
 		console.log(items);
 		return(
-			<div>
-			{items.map((item, i) => <div  key={item.gym_id}><b>{item.value}</b> {this.convertTimestamp(item.timestamp)}</div>)}
-		</div>
+			<table className='table table-bordered'>
+			{items.map((item, i) => <tr  key={item.gym_id}>
+																<td>{item.value}</td>
+																<td>{this.convertTimestamp(item.timestamp)}</td>
+															</tr>
+								)}
+		</table>
 		);
 	}
 

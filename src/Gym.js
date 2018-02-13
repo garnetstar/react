@@ -78,23 +78,26 @@ class Gym extends Component {
 		const errorMessage = this.state.errorMessage;
 		return(
 
-			<div>
-				<div>
-					{message !== null && <b>{message}</b>}
-					{errorMessage !== null && <b style={{color: 'red'}}>{errorMessage}</b>}
-				</div>
-					<form onSubmit={this.handleSubmit} className='form-horizontal'>
-						<div className='form-group'>
-							<label htmlFor='dateId' >Date</label>
+			<div className='row'>
+				<div className='col-md-6'>
+					<div>
+						{message !== null && <b>{message}</b>}
+						{errorMessage !== null && <b style={{color: 'red'}}>{errorMessage}</b>}
+					</div>
+						<form onSubmit={this.handleSubmit} className='form-horizontal'>
+							<div className='form-group'>
+								<label htmlFor='dateId' >Date</label>
 
-							<input type='date' id='dateId' className='form-control' onChange={this.handleDate} value={this.state.date} />
+								<input type='date' id='dateId' className='form-control' onChange={this.handleDate} value={this.state.date} />
 
-						</div>
-						<input type='number' onChange={this.handleGymValue} value={this.state.gymValue} />
-						<input type='submit' value='add' />
-					</form>
-
-					<GymList items={this.state.items} error={this.state.loadIemsError} />
+							</div>
+							<input type='number' onChange={this.handleGymValue} value={this.state.gymValue} />
+							<input type='submit' value='add' />
+						</form>
+					</div>
+					<div className='col-md-6'>
+						<GymList items={this.state.items} error={this.state.loadIemsError} />
+					</div>
 				</div>
 
 
