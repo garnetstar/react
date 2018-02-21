@@ -28,33 +28,28 @@ class MyApp extends Component {
 
 	render() {
 		return(
-			<BrowserRouter>
-			<div>
-				<Nav bsStyle="tabs" activeKey={this.state.context} onSelect={this.handleChangeContext}>
-				    <RouteNavItem eventKey={'article'} href="/article" title='Article'>Article</RouteNavItem>
-				    <RouteNavItem eventKey={'personal'} href="/personal" title="Personal">Personal</RouteNavItem>
-						 <RouteNavItem eventKey={'gym'} href="/gym" title="Gym">Gym</RouteNavItem>
-				  </Nav>
+	<BrowserRouter>
+		<div>
+			<Nav bsStyle="tabs" activeKey={this.state.context} onSelect={this.handleChangeContext}>
+				<RouteNavItem eventKey={'article'} href="/article" title='Article'>Article</RouteNavItem>
+				<RouteNavItem eventKey={'personal'} href="/personal" title="Personal">Personal</RouteNavItem>
+				<RouteNavItem eventKey={'gym'} href="/gym" title="Gym">Gym</RouteNavItem>
+			</Nav>
 			<br />
 			<Grid>
 				<Row>
 					<Col sm={12}>
 						<Switch>
-					   {/*<Route exact path='/' component={Article}/>*/}
-
-						 <Route path='/article/:number/:test' render={(props) => (<Article aaa={props.match} />)} />
+							<Route path='/article/:number/:test' render={(props) => (<Article aaa={props.match} />)} />
 						  <Route path='/article/:number' render={(props) => (<ArticleDetail articleId={props.match.params.number} />)}/>
 							<Route path='/article' component={Article}/>
 							<Route path='/gym' component={Gym}/>
 						  <Route path='/personal' component={Personal}/>
-
-
-
 						</Switch>
 					</Col>
 				</Row>
 			</Grid>
-		 </div>
+		</div>
  </BrowserRouter>
 		);
 	}

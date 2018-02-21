@@ -13,6 +13,7 @@ class Gym extends Component {
 			isLoaded: false,
 			gyms: null,
 			date: '',
+			type: '',
 			gymValue: '',
 			message: '',
 			errorMessage: '',
@@ -22,6 +23,11 @@ class Gym extends Component {
 		this.handleDate = this.handleDate.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleGymValue = this.handleGymValue.bind(this);
+		this.handleType = this.handleType.bind(this);
+
+		//form default
+		this.state.type = 2;
+
 	}
 
 	componentDidMount() {
@@ -43,16 +49,24 @@ class Gym extends Component {
 		this.setState({ gymValue: e.target.value });
 	}
 
+	handleType(e) {
+		this.setState({ type: e.target.value }, function() {
+			this.loadItems();
+		});
+
+	}
+
 	handleSubmit(e) {
 		this.clearMessages();
 		//syntetic event - po prvním volání přestává existovat
 		const target = e.target;
+		console.log(this.state.type);
 		fetch('/gym', {
 				method: 'POST',
 				body: JSON.stringify({
 					date: this.state.date,
 					value: this.state.gymValue,
-					type: 1
+					type: this.state.type,
 				})
 			})
 			.then(function(res) {
@@ -73,6 +87,14 @@ class Gym extends Component {
 		e.preventDefault();
 	}
 
+	handleDelete(e, i) {
+		console.log(i);
+		fetch('/gym/' + i, {method:'delete'}).then(response => response.json().then(json => {
+			console.log(json);
+			this.loadItems();
+		}));
+	}
+
 	addForm() {
 		const message = this.state.message;
 		const errorMessage = this.state.errorMessage;
@@ -89,14 +111,23 @@ class Gym extends Component {
 								<label htmlFor='dateId' >Date</label>
 
 								<input type='date' id='dateId' className='form-control' onChange={this.handleDate} value={this.state.date} />
-
+									<div className="form-group">
+	    							<label htmlFor="exampleFormControlSelect1">Example select</label>
+										<select className="form-control" onChange={this.handleType} value={this.state.type} >
+									  	<option value='1' >1</option>
+									    <option value='2' >2</option>
+											<option value='3' >3</option>
+									  </select>
+									</div>
 							</div>
-							<input type='number' onChange={this.handleGymValue} value={this.state.gymValue} />
-							<input type='submit' value='add' />
+							<div className='form-group'>
+								<input type='number' onChange={this.handleGymValue} value={this.state.gymValue} />
+								<input type='submit' value='add' />
+							</div>
 						</form>
 					</div>
 					<div className='col-md-6'>
-						<GymList items={this.state.items} error={this.state.loadIemsError} />
+						<GymList items={this.state.items} error={this.state.loadIemsError} onDeleteClick={(e, i)=>this.handleDelete(e, i)} />
 					</div>
 				</div>
 
@@ -105,30 +136,21 @@ class Gym extends Component {
 	}
 
 	loadItems() {
-		fetch('/gym?type=1&order=desc')
+		fetch('/gym?type=1&order=desc&type=' + this.state.type)
 			.then(res => res.json())
 			.then((result) => {
-					if(result.ok === false) {
-						console.log(result);
-						this.setState({
-							loadIemsError: result.status + ' ' + result.statusText,
-						});
-					} else {
-						this.setState({
-							items: result,
-							// isLoaded: true,
-						});
-					}
+				if(result.ok === false) {
+					console.log(result);
+					this.setState({
+						loadIemsError: result.status + ' ' + result.statusText,
+					});
+				} else {
+					this.setState({
+						items: result,
+						// isLoaded: true,
+					});
 				}
-
-				// .catch(error) => {
-				// 	// console.log(error);
-				// 	this.setState({
-				// 		// isLoaded: true,
-				// 		loadIemsError: 'error happend',
-				// 	});
-				// }
-			);
+			});
 	}
 
 	clearMessages() {
@@ -138,6 +160,8 @@ class Gym extends Component {
 			errorMessage: '',
 		});
 	}
+
+
 }
 
 export default Gym;

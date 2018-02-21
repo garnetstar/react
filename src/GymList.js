@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-// import { BrowserRouter, Route, Switch } from 'react-router-dom';
-// import { Link } from 'react-router-dom';
 
 class GymList extends Component {
 	constructor(props) {
@@ -8,32 +6,16 @@ class GymList extends Component {
 		this.state = {
 			items: null,
 			error: null,
-			isLoaded: false,
+			deleteHandler: null,
+			onDeleteClick: props.onDeleteClick,
 		};
-	}
 
-	componentDidMount() {
-		// fetch('/gym?type=1&order=desc')
-		//   .then(res => res.json())
-		//   .then((result) => {
-		//       this.setState({
-		//         items: result,
-		//         isLoaded: true,
-		//       })
-		//     },
-		//     (error) => {
-		//       this.setState({
-		//         isLoaded: true,
-		//         error
-		//       });
-		//     }
-		//   );
-
+		this.handleDelete = this.handleDelete.bind(this);
 	}
 
 	render() {
 		if(this.props.error) {
-				 return(<b>{this.props.error}</b>);
+			return(<b>{this.props.error}</b>);
 		} else if(this.props.items === null) {
 			return(<div>Loading....</div>);
 		} else {
@@ -42,16 +24,17 @@ class GymList extends Component {
 				this.listItems()
 			);
 		}
-		// console.log(this.props.items);
-		// if(this.state.error) {
-		//   return(<b>Error</b>);
-		// } else if(this.state.isLoaded === true) {
-		//   return(
-		//     this.listItems()
-		//   );
-		// } else {
-		//   return(<div>Loading...</div>);
-		// }
+	}
+
+	// handleClick(e) {
+	// 	e.preventDefault;
+	// 	onClick={props.onClick}
+	// 	window.confirm('really delete ?');
+	// }
+	handleDelete(e, id) {
+		if(window.confirm('really delete ?')) {
+			this.state.onDeleteClick(e, id);
+		}
 	}
 
 	listItems() {
@@ -59,11 +42,14 @@ class GymList extends Component {
 		console.log(items);
 		return(
 			<table className='table table-bordered'>
+				<tbody>
 			{items.map((item, i) => <tr  key={item.gym_id}>
 																<td>{item.value}</td>
 																<td>{this.convertTimestamp(item.timestamp)}</td>
+																<td><a href='#' onClick={(e) => this.handleDelete(e, item.gym_id)}>delete</a></td>
 															</tr>
 								)}
+</tbody>
 		</table>
 		);
 	}
