@@ -4,8 +4,6 @@ class GymList extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			items: null,
-			error: null,
 			deleteHandler: null,
 			onDeleteClick: props.onDeleteClick,
 		};
@@ -39,7 +37,6 @@ class GymList extends Component {
 
 	listItems() {
 		const items = this.props.items;
-		console.log(items);
 		return(
 			<table className='table table-bordered'>
 				<tbody>
