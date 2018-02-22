@@ -53,7 +53,9 @@ class GymList extends Component {
 
 	convertTimestamp(stamp) {
 		var date = new Date(stamp);
-		return date.getDate() + '.' + date.getMonth() + '.' + date.getFullYear();
+		var month = parseInt(date.getMonth());
+		month++;
+		return date.getDate() + '.' + month + '.' + date.getFullYear();
 	}
 }
 

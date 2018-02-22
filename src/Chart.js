@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 
 class Chart extends Component {
 	constructor(props) {
@@ -10,26 +10,60 @@ class Chart extends Component {
 	}
 
 	render() {
-    console.log(this.props.items);
-		const data = [
-			{ name: 'Page A', uv: 4000, pv: 2400, amt: 2400 },
-			{ name: 'Page B', uv: 3000, pv: 1398, amt: 2210 },
-			{ name: 'Page C', uv: 2000, pv: 9800, amt: 2290 },
-			{ name: 'Page D', uv: 2780, pv: 3908, amt: 2000 },
-			{ name: 'Page E', uv: 1890, pv: 4800, amt: 2181 },
-			{ name: 'Page F', uv: 2390, pv: 3800, amt: 2500 },
-			{ name: 'Page G', uv: 3490, pv: 4300, amt: 2100 },
-		];
+
+		var data = [];
+
+		if(this.props.items !== null) {
+
+			this.props.items.map((function(item) {
+				data.push({
+					datum: this.convertTimestamp(item.timestamp),
+					value: item.value,
+					timestamp: item.timestamp,
+				});
+
+				data.sort(
+					function(a,b) {
+						if(a.timestamp < b.timestamp) {
+							return -1;
+						}
+						if(a.timestamp >= b.timestamp) {
+							return 1;
+						}
+					}
+				);
+			}).bind(this));
+			console.log(data);
+		}
+
 		return(
 
       <LineChart width={500} height={300} data={data}>
-  <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-  <CartesianGrid stroke="#ccc" />
-  <XAxis dataKey="name" />
-  <YAxis />
-</LineChart>
+		  <Line type="monotone" dataKey="value" stroke="#8884d8" />
+		  <CartesianGrid stroke="#ccc" />
+		  <XAxis
+				dataKey={'datum'}
+
+				/>
+		  <YAxis
+				dataKey={'datum'}
+						name='stature'
+						unit='kg'
+						domain={[90, 105]}
+						type="number"
+
+				  />
+			<Tooltip />
+		</LineChart>
 
 		);
+	}
+
+	convertTimestamp(stamp) {
+		var date = new Date(stamp);
+		var month = parseInt(date.getMonth());
+		month++;
+		return date.getDate() + '.' + month + '.' + date.getFullYear();
 	}
 
 }
