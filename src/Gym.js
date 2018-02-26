@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Message from './Message';
 import GymList from './GymList';
 import Chart from './Chart';
+import AjaxHelperClass from "./ajaxHelper";
 
 class Gym extends Component {
 
@@ -20,6 +21,7 @@ class Gym extends Component {
 			errorMessage: '',
 			items: null,
 			loadIemsError: null,
+			ajaxHelper: AjaxHelperClass,
 		};
 		this.handleDate = this.handleDate.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -33,11 +35,12 @@ class Gym extends Component {
 
 	componentDidMount() {
 
-		var callback = (function(result) {
-			this.setState({items: result});
+		var callback = ((result) => {
+			this.setState({ items: result });
 		}).bind(this);
-		this.loadItems(callback, this.state.type);
-}
+
+		this.state.ajaxHelper.gymList(callback, this.state.type);
+	}
 
 	render() {
 		return(
@@ -55,9 +58,9 @@ class Gym extends Component {
 
 	handleType(e) {
 		const typeId = e.target.value;
-		var callback = (function(res, typeId) {
+		var callback = ((res, typeId) => {
 			this.setState({
-				type:typeId,
+				type: typeId,
 				items: res,
 			});
 		}).bind(this);
@@ -65,46 +68,34 @@ class Gym extends Component {
 	}
 
 	handleSubmit(e) {
-		this.clearMessages();
-		//syntetic event - po prvním volání přestává existovat
-		const target = e.target;
-		// console.log(this.state.type);
-		fetch('/gym', {
-				method: 'POST',
-				body: JSON.stringify({
-					date: this.state.date,
-					value: this.state.gymValue,
-					type: this.state.type,
-				})
-			})
-			.then(function(res) {
-				if(res.status === 200) {
-					this.loadItems((function(res, typeId) {
-						this.setState({
-							items: res,
-							message: 'ok uložení proběhlo v pořádku',
-							gymValue: '',
-							date: '',
-						});
-					}).bind(this), this.state.type);
-				} else {
-					this.setState({ errorMessage: res.status + ': ' + res.statusText });
-					//console.log(res);
-				}
-			}.bind(this))
-			.catch(function(res) {
-				//console.log(res)
-			 })
+		// this.clearMessages();
+		const callback = function(res) {
+			if(res.status === 200) {
+				this.state.ajaxHelper.gymList((function(res, typeId) {
+					this.setState({
+						items: res,
+						message: 'ok uložení proběhlo v pořádku',
+						gymValue: '',
+						date: '',
+					});
+				}).bind(this), this.state.type);
+			} else {
+				this.setState({ errorMessage: res.status + ': ' + res.statusText });
+				//console.log(res);
+			}
+		}.bind(this);
+
+		this.state.ajaxHelper.gymSave(this.state.date, this.state.gymValue, this.state.type, callback);
 		e.preventDefault();
 	}
 
 	handleDelete(e, i) {
 		// console.log(i);
-		fetch('/gym/' + i, {method:'delete'}).then(response => response.json().then(json => {
+		fetch('/gym/' + i, { method: 'delete' }).then(response => response.json().then(json => {
 			// console.log(json);
 			this.loadItems((function(res) {
 				this.setState({
-					items:res,
+					items: res,
 				});
 			}).bind(this), this.state.type);
 		}));
@@ -147,8 +138,6 @@ class Gym extends Component {
 						<GymList items={items} error={this.state.loadIemsError} onDeleteClick={(e, i)=>this.handleDelete(e, i)} />
 					</div>
 				</div>
-
-
 		);
 	}
 

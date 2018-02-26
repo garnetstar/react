@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, AreaChart } from 'recharts';
 
 class Chart extends Component {
 	constructor(props) {
@@ -15,7 +15,7 @@ class Chart extends Component {
 
 		if(this.props.items !== null) {
 
-			this.props.items.map((function(item) {
+			this.props.items.map(((item) => {
 				data.push({
 					datum: this.convertTimestamp(item.timestamp),
 					value: item.value,
@@ -49,7 +49,7 @@ class Chart extends Component {
 				dataKey={'datum'}
 						name='stature'
 						unit='kg'
-						domain={[90, 105]}
+						domain={[80, 100]}
 						type="number"
 
 				  />

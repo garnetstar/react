@@ -6,6 +6,7 @@ class GymList extends Component {
 		this.state = {
 			deleteHandler: null,
 			onDeleteClick: props.onDeleteClick,
+			ajaxHelper : null,
 		};
 
 		this.handleDelete = this.handleDelete.bind(this);
