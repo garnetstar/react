@@ -14,7 +14,7 @@ class Gym extends Component {
 		this.state = {
 			isLoaded: false,
 			gyms: null,
-			date: '',
+			date: this.getCurrentDate(),
 			type: '',
 			gymValue: '',
 			message: '',
@@ -76,7 +76,8 @@ class Gym extends Component {
 						items: res,
 						message: 'ok uložení proběhlo v pořádku',
 						gymValue: '',
-						date: '',
+						errorMessage: null,
+						// date: '',
 					});
 				}).bind(this), this.state.type);
 			} else {
@@ -155,12 +156,21 @@ class Gym extends Component {
 			});
 	}
 
-	clearMessages() {
-		console.log('cleaaar');
-		this.setState({
-			message: '',
-			errorMessage: '',
-		});
+	getCurrentDate() {
+		var date = new Date();
+		var day = date.getDate();
+		var month = parseInt(date.getMonth());
+		month++;
+		if(month < 10) {
+			month = '0' + month;
+		}
+		if(day < 10) {
+			day = '0' + day;
+		}
+		// to same udelat pro day
+		const dateString = date.getFullYear() + '-' + month + '-' + day;
+		console.log(dateString);
+		return dateString;
 	}
 
 
