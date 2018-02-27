@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { ListGroup, ListGroupItem, Button } from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import MarkdownRenderer from 'react-markdown-renderer';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
@@ -39,7 +38,7 @@ class ArticleDetail extends Component {
 			return(
 				<div>
         <b>{this.state.article.title}</b>
-      <MarkdownRenderer markdown={this.state.article.content} />
+      <div>{this.state.article.content}</div>
       </div>
 
 			);

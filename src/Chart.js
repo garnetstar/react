@@ -33,7 +33,6 @@ class Chart extends Component {
 					}
 				);
 			}).bind(this));
-			console.log(data);
 		}
 
 		return(

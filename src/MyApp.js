@@ -9,7 +9,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import RouteNavItem from "./RouteNavItem";
 
 
-import { Button, Grid, Row, Col, Panel, FormGroup, FormControl, ControlLabel, Nav, NavItem } from 'react-bootstrap';
+// import { Button, Grid, Row, Col, Panel, FormGroup, FormControl, ControlLabel, Nav, NavItem } from 'react-bootstrap';
 // import ReactDOM from 'react-dom';
 // import MarkdownRenderer from 'react-markdown-renderer';
 
@@ -19,26 +19,27 @@ class MyApp extends Component {
 		this.state = {
 			context: 'article'
 		};
-		this.handleChangeContext = this.handleChangeContext.bind(this);
-	}
-
-	handleChangeContext(context) {
-		this.setState({ context: context });
 	}
 
 	render() {
 		return(
 	<BrowserRouter>
 		<div>
-			<Nav bsStyle="tabs" activeKey={this.state.context} onSelect={this.handleChangeContext}>
-				<RouteNavItem eventKey={'article'} href="/article" title='Article'>Article</RouteNavItem>
-				<RouteNavItem eventKey={'personal'} href="/personal" title="Personal">Personal</RouteNavItem>
-				<RouteNavItem eventKey={'gym'} href="/gym" title="Gym">Gym</RouteNavItem>
-			</Nav>
+			<ul className='nav nav-tabs' >
+				<li className='nav-item'>
+					<RouteNavItem  href="/article" title='Article'>Article</RouteNavItem>
+				</li>
+				<li className='nav-item'>
+					<RouteNavItem  href="/personal" title="Personal">Personal</RouteNavItem>
+				</li>
+				<li className='nav-item'>
+					<RouteNavItem href="/gym" title="Gym">Gym</RouteNavItem>
+				</li>
+			</ul>
 			<br />
-			<Grid>
-				<Row>
-					<Col sm={12}>
+			<div>
+				<div>
+					<div sm={12}>
 						<Switch>
 							<Route path='/article/:number/:test' render={(props) => (<Article aaa={props.match} />)} />
 						  <Route path='/article/:number' render={(props) => (<ArticleDetail articleId={props.match.params.number} />)}/>
@@ -46,9 +47,9 @@ class MyApp extends Component {
 							<Route path='/gym' component={Gym}/>
 						  <Route path='/personal' component={Personal}/>
 						</Switch>
-					</Col>
-				</Row>
-			</Grid>
+					</div>
+				</div>
+			</div>
 		</div>
  </BrowserRouter>
 		);

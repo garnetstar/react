@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import {Button} from 'react-bootstrap';
+
 
 class App extends Component {
 
@@ -73,7 +73,7 @@ class App extends Component {
 						{indents}
 						{tags.map(one=>(
 							<div key={one.tag_id}>
-							<Button  key={one.tag_id}>{one.name}</Button>
+							<div  key={one.tag_id}>{one.name}</div>
 							</div>
 													)
 												)

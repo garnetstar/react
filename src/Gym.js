@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ListGroup, ListGroupItem, Button } from 'react-bootstrap';
+// import { ListGroup, ListGroupItem, Button } from 'react-bootstrap';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Message from './Message';
@@ -169,7 +169,6 @@ class Gym extends Component {
 		}
 		// to same udelat pro day
 		const dateString = date.getFullYear() + '-' + month + '-' + day;
-		console.log(dateString);
 		return dateString;
 	}
 

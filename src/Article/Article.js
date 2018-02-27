@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ArticleDetail from './ArticleDetail';
-import { ListGroup, ListGroupItem, Button } from 'react-bootstrap';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
@@ -68,7 +67,7 @@ class Article extends Component {
 		return(
 			<div>
 				<ArticleDetail articleId={this.state.articleId} />
-				<Button onClick={this.handleClickList} >Back</Button>
+				<div onClick={this.handleClickList} >Back</div>
 			</div>);
 	}
 

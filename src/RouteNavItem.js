@@ -1,17 +1,16 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import { NavItem } from "react-bootstrap";
 
 export default props =>
   <Route
     path={props.href}
-    
+
     children={({ match, history }) =>
-      <NavItem
-        onClick={e => history.push(e.currentTarget.getAttribute("href"))}
+      <a 
+        onClick={(e) => {history.push(e.currentTarget.getAttribute("href")); e.preventDefault();}}
         {...props}
-        active={match ? true : false}
+        className={match ? 'nav-link active' : 'nav-link'}
       >
         {props.children}
-      </NavItem>}
+      </a>}
   />;

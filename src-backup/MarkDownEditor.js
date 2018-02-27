@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Button, Grid, Row, Col, Panel, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import MarkdownRenderer from 'react-markdown-renderer';
 
