@@ -24,32 +24,30 @@ class MyApp extends Component {
 	render() {
 		return(
 	<BrowserRouter>
-		<div>
-			<ul className='nav nav-tabs' >
-				<li className='nav-item'>
-					<RouteNavItem  href="/article" title='Article'>Article</RouteNavItem>
-				</li>
-				<li className='nav-item'>
-					<RouteNavItem  href="/personal" title="Personal">Personal</RouteNavItem>
-				</li>
-				<li className='nav-item'>
-					<RouteNavItem href="/gym" title="Gym">Gym</RouteNavItem>
-				</li>
-			</ul>
-			<br />
-			<div>
-				<div>
-					<div sm={12}>
-						<Switch>
-							<Route path='/article/:number/:test' render={(props) => (<Article aaa={props.match} />)} />
-						  <Route path='/article/:number' render={(props) => (<ArticleDetail articleId={props.match.params.number} />)}/>
-							<Route path='/article' component={Article}/>
-							<Route path='/gym' component={Gym}/>
-						  <Route path='/personal' component={Personal}/>
-						</Switch>
-					</div>
+		<div className='container'>
+			<div className='row'>
+				<div className='col-sm-12'>
+					<ul className='nav nav-tabs' >
+						<li className='nav-item'>
+							<RouteNavItem  href="/article" title='Article'>Article</RouteNavItem>
+						</li>
+						<li className='nav-item'>
+							<RouteNavItem  href="/personal" title="Personal">Personal</RouteNavItem>
+						</li>
+						<li className='nav-item'>
+							<RouteNavItem href="/gym" title="Gym">Gym</RouteNavItem>
+						</li>
+					</ul>
 				</div>
 			</div>
+
+				<Switch>
+					<Route path='/article/:number/:test' render={(props) => (<Article aaa={props.match} />)} />
+				  <Route path='/article/:number' render={(props) => (<ArticleDetail articleId={props.match.params.number} />)}/>
+					<Route path='/article' component={Article}/>
+					<Route path='/gym' component={Gym}/>
+				  <Route path='/personal' component={Personal}/>
+				</Switch>
 		</div>
  </BrowserRouter>
 		);

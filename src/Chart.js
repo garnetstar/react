@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, AreaChart } from 'recharts';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 
 class Chart extends Component {
 	constructor(props) {
@@ -30,9 +30,11 @@ class Chart extends Component {
 						if(a.timestamp >= b.timestamp) {
 							return 1;
 						}
+						return true;
 					}
 				);
-			}).bind(this));
+				return true;
+			}));
 		}
 
 		return(

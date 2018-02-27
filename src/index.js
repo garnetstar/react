@@ -3,9 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import MyApp from './MyApp';
-import Clock from './Clock';
-// import Layout from './Layout';
-// import MarkDownEditor from './MarkDownEditor';
 import registerServiceWorker from './registerServiceWorker';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 

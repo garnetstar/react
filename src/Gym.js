@@ -107,38 +107,47 @@ class Gym extends Component {
 		const errorMessage = this.state.errorMessage;
 		const items = this.state.items;
 		return(
-
 			<div className='row'>
-				<div className='col-md-6'>
-					<div>
-						{message !== null && <b>{message}</b>}
-						{errorMessage !== null && <b style={{color: 'red'}}>{errorMessage}</b>}
-					</div>
-						<form onSubmit={this.handleSubmit} className='form-horizontal'>
-							<div className='form-group'>
-								<label htmlFor='dateId' >Date</label>
+				<div className='col-sm-6'>
+					<div className='row'>
+						<div className='col-sm-12'>
+							<div>
+								{message !== null && <b>{message}</b>}
+								{errorMessage !== null && <b style={{color: 'red'}}>{errorMessage}</b>}
+							</div>
+							<form onSubmit={this.handleSubmit} className='form-horizontal'>
+								<div className='form-group'>
+									<label htmlFor='dateId' >Date</label>
 
-								<input type='date' id='dateId' className='form-control' onChange={this.handleDate} value={this.state.date} />
-									<div className="form-group">
-	    							<label htmlFor="exampleFormControlSelect1">Example select</label>
-										<select className="form-control" onChange={this.handleType} value={this.state.type} >
-									  	<option value='1' >1</option>
-									    <option value='2' >2</option>
-											<option value='3' >3</option>
-									  </select>
-									</div>
+									<input type='date' id='dateId' className='form-control' onChange={this.handleDate} value={this.state.date} />
+										<div className="form-group">
+		    							<label htmlFor="exampleFormControlSelect1">Example select</label>
+											<select className="form-control" onChange={this.handleType} value={this.state.type} >
+										  	<option value='1' >1</option>
+										    <option value='2' >2</option>
+												<option value='3' >3</option>
+										  </select>
+										</div>
+								</div>
+								<div className='form-group'>
+									<input type='number' onChange={this.handleGymValue} value={this.state.gymValue} />
+									<input type='submit' value='add' />
+								</div>
+							</form>
+						</div>
+						<div className='row'>
+							<div className='col-sm-12'>
+								<div className='img-fluid'>
+								<Chart items={items}  />
+								</div>
 							</div>
-							<div className='form-group'>
-								<input type='number' onChange={this.handleGymValue} value={this.state.gymValue} />
-								<input type='submit' value='add' />
-							</div>
-						</form>
-						<Chart items={items}  />
-					</div>
-					<div className='col-md-6'>
-						<GymList items={items} error={this.state.loadIemsError} onDeleteClick={(e, i)=>this.handleDelete(e, i)} />
+						</div>
 					</div>
 				</div>
+				<div className='col-sm-6'>
+					<GymList items={items} error={this.state.loadIemsError} onDeleteClick={(e, i)=>this.handleDelete(e, i)} />
+				</div>
+			</div>
 		);
 	}
 
@@ -169,6 +178,7 @@ class Gym extends Component {
 		}
 		// to same udelat pro day
 		const dateString = date.getFullYear() + '-' + month + '-' + day;
+		console.log(dateString);
 		return dateString;
 	}
 
