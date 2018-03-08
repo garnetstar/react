@@ -62,7 +62,7 @@ class Chart extends Component {
 
 	convertTimestamp(stamp) {
 		var date = new Date(stamp);
-		var month = parseInt(date.getMonth());
+		var month = parseInt(date.getMonth(),10);
 		month++;
 		return date.getDate() + '.' + month + '.' + date.getFullYear();
 	}

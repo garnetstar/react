@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 // import { ListGroup, ListGroupItem, Button } from 'react-bootstrap';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import Message from './Message';
 import GymList from './GymList';
 import Chart from './Chart';
 import AjaxHelperClass from "./ajaxHelper";
@@ -37,7 +34,7 @@ class Gym extends Component {
 
 		var callback = ((result) => {
 			this.setState({ items: result });
-		}).bind(this);
+		});
 
 		this.state.ajaxHelper.gymList(callback, this.state.type);
 	}
@@ -63,7 +60,7 @@ class Gym extends Component {
 				type: typeId,
 				items: res,
 			});
-		}).bind(this);
+		});
 		this.loadItems(callback, typeId);
 	}
 
@@ -129,10 +126,10 @@ class Gym extends Component {
 										  </select>
 										</div>
 								</div>
-								<div className='form-group'>
-									<input type='number' onChange={this.handleGymValue} value={this.state.gymValue} />
-									<input type='submit' value='add' />
-								</div>
+										<div className='form-group'>
+											<input type='number' onChange={this.handleGymValue} value={this.state.gymValue} />
+											<input type='submit' value='add' />
+										</div>
 							</form>
 						</div>
 						<div className='row'>
@@ -168,7 +165,7 @@ class Gym extends Component {
 	getCurrentDate() {
 		var date = new Date();
 		var day = date.getDate();
-		var month = parseInt(date.getMonth());
+		var month = parseInt(date.getMonth(), 10);
 		month++;
 		if(month < 10) {
 			month = '0' + month;
@@ -178,7 +175,6 @@ class Gym extends Component {
 		}
 		// to same udelat pro day
 		const dateString = date.getFullYear() + '-' + month + '-' + day;
-		console.log(dateString);
 		return dateString;
 	}
 

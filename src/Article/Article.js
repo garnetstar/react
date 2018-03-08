@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ArticleDetail from './ArticleDetail';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 class Article extends Component {
@@ -9,7 +8,9 @@ class Article extends Component {
 		this.state = {
 			gyms: null,
 			isLoaded: false,
+			articleId: props.articleId,
 		};
+		// this.setState({articleId: props.articleId});
 	}
 
 	componentDidMount() {
@@ -43,19 +44,16 @@ class Article extends Component {
 		})
 	}
 
+componentWillReceiveProps(nextProps){
+	this.setState({articleId: nextProps.articleId});
+}
 	render() {
-
 		if(this.state.error) {
 			return(<b>Error</b>);
 		} else if(this.state.isLoaded === true) {
-			if(this.state.articleId != null) {
-
-				return(this.renderDetail());
-			} else {
-				// list of articles
-				console.log(this.state.aaa);
-				return(this.renderList());
-			}
+			return(
+				this.renderList()
+			);
 		} else {
 			return(
 				<div>Loading...</div>
@@ -64,6 +62,8 @@ class Article extends Component {
 	}
 
 	renderDetail() {
+
+
 		return(
 			<div>
 				<ArticleDetail articleId={this.state.articleId} />
@@ -73,14 +73,31 @@ class Article extends Component {
 
 	renderList() {
 		let articles = this.state.articles;
+		const articleIdConst = this.state.articleId;
+		//console.log(props);
+		// const css = (article.articleId !== articleId) ? '' :' active';
 		return(
-			<ul class="nav nav-tabs nav-stacked">
-				{articles.map(article=>(
-				<li key={article.article_id}>
-            <Link to={`/article/${article.article_id}`}>{article.title}</Link>
-          </li>
-				))}
-			</ul>
+			<div>
+				<br/>
+			<div className='row'>
+				<div className='col-sm-3'>
+					<div className="list-group">
+						{articles.map((article, key)=>
+		           <Link key={key}
+								 to={`/article/${article.article_id}`}
+								 className={'list-group-item list-group-item-action' + (article.article_id === articleIdConst ? ' active': '') }
+								 >
+								 {article.title}
+							 </Link>
+					 )}
+					</div>
+				</div>
+				<div className='col-sm-9'>
+					<ArticleDetail articleId={articleIdConst} />
+					<div onClick={this.handleClickList} >Back</div>
+				</div>
+			</div>
+		</div>
 		);
 	}
 }

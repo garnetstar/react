@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import Article from './Article/Article';
-import ArticleDetail from './Article/ArticleDetail';
+import ArticleEdit from './Article/ArticleEdit';
 import Personal from './Personal/Personal';
 import Gym from './Gym';
-import { Link } from 'react-router-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import RouteNavItem from "./RouteNavItem";
@@ -24,7 +23,7 @@ class MyApp extends Component {
 	render() {
 		return(
 	<BrowserRouter>
-		<div className='container'>
+		<div className='container-fluid'>
 			<div className='row'>
 				<div className='col-sm-12'>
 					<ul className='nav nav-tabs' >
@@ -42,8 +41,9 @@ class MyApp extends Component {
 			</div>
 
 				<Switch>
-					<Route path='/article/:number/:test' render={(props) => (<Article aaa={props.match} />)} />
-				  <Route path='/article/:number' render={(props) => (<ArticleDetail articleId={props.match.params.number} />)}/>
+				 {/* <Route path='/article/:number' render={(props) => (<ArticleDetail articleId={props.match.params.number} />)}/> */}
+				 <Route path='/article/edit/:id' render={(props) => (<ArticleEdit articleId={props.match.params.id} />)} />
+				 <Route path='/article/:number' render={(props) => (<Article articleId={props.match.params.number} />)}/>
 					<Route path='/article' component={Article}/>
 					<Route path='/gym' component={Gym}/>
 				  <Route path='/personal' component={Personal}/>

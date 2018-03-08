@@ -31,6 +31,7 @@ class GymList extends Component {
 	// 	window.confirm('really delete ?');
 	// }
 	handleDelete(e, id) {
+		e.preventDefault();
 		if(window.confirm('really delete ?')) {
 			this.state.onDeleteClick(e, id);
 		}
@@ -44,7 +45,7 @@ class GymList extends Component {
 			{items.map((item, i) => <tr  key={item.gym_id}>
 																<td>{item.value}</td>
 																<td>{this.convertTimestamp(item.timestamp)}</td>
-																<td><a href='#' onClick={(e) => this.handleDelete(e, item.gym_id)}>delete</a></td>
+																<td><a onClick={(e) => this.handleDelete(e, item.gym_id)}>delete</a></td>
 															</tr>
 								)}
 </tbody>
@@ -54,7 +55,7 @@ class GymList extends Component {
 
 	convertTimestamp(stamp) {
 		var date = new Date(stamp);
-		var month = parseInt(date.getMonth());
+		var month = parseInt(date.getMonth(),10);
 		month++;
 		return date.getDate() + '.' + month + '.' + date.getFullYear();
 	}

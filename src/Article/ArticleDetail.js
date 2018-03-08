@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import MarkdownRenderer from 'react-markdown-renderer';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import RouteNavItem from "../RouteNavItem";
+
 
 class ArticleDetail extends Component {
 	constructor(props) {
@@ -31,20 +31,44 @@ class ArticleDetail extends Component {
 			);
 	}
 
+	componentWillReceiveProps(nextProps) {
+		if(nextProps.articleId !== this.props.articleId) {
+			fetch('/article/' + nextProps.articleId)
+				.then(res => res.json())
+				.then((result) => {
+						this.setState({
+							article: result,
+							isLoaded: true,
+					})
+					},
+					(error) => {
+						this.setState({
+							isLoaded: true,
+							error
+						});
+					}
+				);
+		}
+	}
+
 	render() {
 		if(this.state.isLoaded) {
-			console.log(this.state);
-
+			const url = '/article/edit/' + this.state.article.article_id;
 			return(
 				<div>
+						<RouteNavItem href={url} title="Edit">Edit</RouteNavItem>
         <b>{this.state.article.title}</b>
-      <div>{this.state.article.content}</div>
+				{this.state.article.content && (
+						<MarkdownRenderer markdown={this.state.article.content} />
+				)}
+
+
       </div>
 
 			);
 		} else {
-      return(<div>Loading...</div>);
-    }
+			return(<div>Loading...</div>);
+		}
 	}
 
 }

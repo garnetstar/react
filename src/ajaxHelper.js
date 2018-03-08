@@ -28,6 +28,18 @@ class AjaxHelperClass {
 		.catch(res=>{console.log(res);});
 	}
 
+	articleSave(articleId,title, content, callback) {
+		const body = JSON.stringify({
+			title: title,
+			content: content,
+		});
+		fetch('/article/' + articleId, {
+			method: 'POST',
+			body: body,
+		}).then(res=>{callback(res)})
+		.catch(res=>{console.log(res);});
+	}
+
 }
 
-export default new AjaxHelperClass;
+export default new AjaxHelperClass();
