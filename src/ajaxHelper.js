@@ -40,6 +40,21 @@ class AjaxHelperClass {
 		.catch(res=>{console.log(res);});
 	}
 
+	articleDelete(articleId, callback) {
+		fetch('/article/' + articleId, {method: 'DELETE'})
+		.then(res=>{callback(res)});
+	}
+
+	articleAdd(title, callback) {
+		const body = JSON.stringify({
+			title: title,
+		});
+		fetch('/article', {
+			method: 'PUT',
+			body: body,
+		}).then(res=>{callback(res)});
+	}
+
 }
 
-export default new AjaxHelperClass();
+export default new AjaxHelperClass()	;

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import MarkdownRenderer from 'react-markdown-renderer';
 import RouteNavItem from "../RouteNavItem";
-
+import AjaxHelperClass from "../ajaxHelper";
+import { Redirect } from 'react-router-dom';
 
 class ArticleDetail extends Component {
 	constructor(props) {
@@ -10,7 +11,10 @@ class ArticleDetail extends Component {
 			articleId: this.props.articleId,
 			article: null,
 			isLoaded: false,
+			ajaxHelper: AjaxHelperClass,
+			redirectToArticle: null,
 		};
+		this.handleDelete = this.handleDelete.bind(this);
 	}
 
 	componentDidMount() {
@@ -32,6 +36,7 @@ class ArticleDetail extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
+		console.log('componentDetail props ' + nextProps.articleId);
 		if(nextProps.articleId !== this.props.articleId) {
 			fetch('/article/' + nextProps.articleId)
 				.then(res => res.json())
@@ -39,7 +44,7 @@ class ArticleDetail extends Component {
 						this.setState({
 							article: result,
 							isLoaded: true,
-					})
+						})
 					},
 					(error) => {
 						this.setState({
@@ -51,12 +56,34 @@ class ArticleDetail extends Component {
 		}
 	}
 
+	handleDelete(e) {
+
+		if(window.confirm('really delete ?')) {
+			const callback = function(res) {
+				this.setState({redirectToArticle: '/article'});
+			}.bind(this);
+			this.state.ajaxHelper.articleDelete(this.state.article.article_id, callback);
+		}
+	}
+
 	render() {
-		if(this.state.isLoaded) {
+		if(this.state.redirectToArticle !== null) {
+			const url = this.state.redirectToArticle;
+			return(<Redirect to={url} />);
+		}
+		else if(this.state.isLoaded) {
 			const url = '/article/edit/' + this.state.article.article_id;
 			return(
 				<div>
-						<RouteNavItem href={url} title="Edit">Edit</RouteNavItem>
+					<ul className='nav justify-content-end'>
+						<li className='nav-item'>
+							<RouteNavItem href={url} title="Edit">Edit</RouteNavItem>
+						</li>
+						<li className='nav-item'>
+							<a className='nav-link' onClick={this.handleDelete} href='#'>delete</a>
+						</li>
+					</ul>
+
         <b>{this.state.article.title}</b>
 				{this.state.article.content && (
 						<MarkdownRenderer markdown={this.state.article.content} />

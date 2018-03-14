@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MarkdownRenderer from 'react-markdown-renderer';
 import AjaxHelperClass from "../ajaxHelper";
+import { Redirect } from 'react-router-dom';
 
 class ArticleEdit extends Component {
 	constructor(props) {
@@ -11,6 +12,7 @@ class ArticleEdit extends Component {
 			isLoaded: false,
 			content: this.props.content,
 			ajaxHelper: AjaxHelperClass,
+			justSaved: false,
 		};
 
 		this.handleContent = this.handleContent.bind(this);
@@ -39,7 +41,8 @@ class ArticleEdit extends Component {
 	handleSubmit(e) {
 	e.preventDefault();
 		const callback = function(res) {
-		};
+			this.setState({justSaved: true});
+		}.bind(this);
 		console.log(this.state.content);
 		console.log(this.state.article.content);
 		this.state.ajaxHelper.articleSave(this.state.articleId, this.state.article.title, this.state.article.content, callback);
@@ -63,7 +66,11 @@ class ArticleEdit extends Component {
 	}
 
 	render() {
-		if(this.state.isLoaded === true) {
+		if(this.state.justSaved === true) {
+			const url = '/article/' + this.state.articleId;
+			return (<Redirect to={url} />);
+		}
+		else if(this.state.isLoaded === true) {
 			return(
 				<div className='row'>
         	<div className='col-sm-6'>
