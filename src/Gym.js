@@ -18,7 +18,7 @@ class Gym extends Component {
 			errorMessage: '',
 			items: null,
 			loadIemsError: null,
-			ajaxHelper: AjaxHelperClass,
+				ajaxHelper: AjaxHelperClass,
 		};
 		this.handleDate = this.handleDate.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -89,7 +89,7 @@ class Gym extends Component {
 
 	handleDelete(e, i) {
 		// console.log(i);
-		fetch('/gym/' + i, { method: 'delete' }).then(response => response.json().then(json => {
+		fetch('/api/gym/' + i, { method: 'delete' }).then(response => response.json().then(json => {
 			// console.log(json);
 			this.loadItems((function(res) {
 				this.setState({
@@ -149,7 +149,7 @@ class Gym extends Component {
 	}
 
 	loadItems(callback, typeId) {
-		fetch('/gym?type=1&order=desc&type=' + typeId)
+		fetch('/api/gym?type=1&order=desc&type=' + typeId)
 			.then(res => res.json())
 			.then((result) => {
 				if(result.ok === false) {

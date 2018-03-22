@@ -18,7 +18,7 @@ class ArticleDetail extends Component {
 	}
 
 	componentDidMount() {
-		fetch('/article/' + this.state.articleId)
+		fetch('/api/article/' + this.state.articleId)
 			.then(res => res.json())
 			.then((result) => {
 					this.setState({
@@ -36,9 +36,8 @@ class ArticleDetail extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		console.log('componentDetail props ' + nextProps.articleId);
 		if(nextProps.articleId !== this.props.articleId) {
-			fetch('/article/' + nextProps.articleId)
+			fetch('/api/article/' + nextProps.articleId)
 				.then(res => res.json())
 				.then((result) => {
 						this.setState({

@@ -27,11 +27,13 @@ class Article extends Component {
 	}
 
 	componentDidMount() {
+		console.log( window.innerWidth);
+		console.log(window.innerHeight);
 		this.reloadList();
 	}
 
 	reloadList() {
-		fetch('/article')
+		fetch('/api/article')
 			.then(res => res.json())
 			.then((result) => {
 					this.setState({
@@ -134,6 +136,11 @@ class Article extends Component {
 				<br/>
 			<div className='row'>
 				<div className='col-sm-3'>
+					<ul className='nav'>
+						<li className='nav-item'>
+								<a className='nav-link' onClick={this.handleNewArticle} href='#'>New article</a>
+						</li>
+					</ul>
 					<div className="list-group">
 						{articles.map((article, key)=>
 		           <Link key={key}
@@ -146,11 +153,7 @@ class Article extends Component {
 					</div>
 				</div>
 				<div className='col-sm-9'>
-					<ul className='nav justify-content-end'>
-						<li className='nav-item'>
-								<a className='nav-link' onClick={this.handleNewArticle} href='#'>New</a>
-						</li>
-					</ul>
+
 					{!isNaN(articleIdConst) && (
 							<ArticleDetail articleId={articleIdConst} />
 					)}

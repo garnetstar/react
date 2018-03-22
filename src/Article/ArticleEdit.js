@@ -21,7 +21,7 @@ class ArticleEdit extends Component {
 	}
 
 	componentDidMount() {
-		fetch('/article/' + this.state.articleId)
+		fetch('/api/article/' + this.state.articleId)
 			.then(res => res.json())
 			.then((result) => {
 					this.setState({

@@ -1,7 +1,7 @@
 class AjaxHelperClass {
 
 	gymList(callback, typeId) {
-		fetch('/gym?type=1&order=desc&type=' + typeId)
+		fetch('/api/gym?type=1&order=desc&type=' + typeId)
 			.then(res => res.json())
 			.then((result) => {
 				if(result.ok === false) {
@@ -20,7 +20,7 @@ class AjaxHelperClass {
 			value: value,
 			type: typeId
 		});
-		fetch('/gym', {
+		fetch('/api/gym', {
 			method: 'POST',
 			body: body
 		})
@@ -33,7 +33,7 @@ class AjaxHelperClass {
 			title: title,
 			content: content,
 		});
-		fetch('/article/' + articleId, {
+		fetch('/api/article/' + articleId, {
 			method: 'POST',
 			body: body,
 		}).then(res=>{callback(res)})
@@ -41,7 +41,7 @@ class AjaxHelperClass {
 	}
 
 	articleDelete(articleId, callback) {
-		fetch('/article/' + articleId, {method: 'DELETE'})
+		fetch('/api/article/' + articleId, {method: 'DELETE'})
 		.then(res=>{callback(res)});
 	}
 
@@ -49,7 +49,7 @@ class AjaxHelperClass {
 		const body = JSON.stringify({
 			title: title,
 		});
-		fetch('/article', {
+		fetch('/api/article', {
 			method: 'PUT',
 			body: body,
 		}).then(res=>{callback(res)});
