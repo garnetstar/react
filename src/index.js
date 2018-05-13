@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import MyApp from './MyApp';
 import registerServiceWorker from './registerServiceWorker';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import './css/bootstrap-custom.css'
+// import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 // function Start() {
 // 	return(
