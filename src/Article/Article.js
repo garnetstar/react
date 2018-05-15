@@ -17,13 +17,14 @@ class Article extends Component {
 			newArticleTitle: null,
 			newArticleId:null,
 			ajaxHelper: AjaxHelperClass,
-
 		};
 		// this.setState({articleId: props.articleId});
 		this.handleNewArticle = this.handleNewArticle.bind(this);
 		this.toggle = this.toggle.bind(this);
 		this.handleSaveArticle = this.handleSaveArticle.bind(this);
 		this.handleNewArticleTitle = this.handleNewArticleTitle.bind(this);
+		this.refModalInput = React.createRef();
+		this.refSearchInput = React.createRef();
 	}
 
 	componentDidMount() {
@@ -39,7 +40,8 @@ class Article extends Component {
 					this.setState({
 						articles: result,
 						isLoaded: true,
-					})
+					});
+					this.refSearchInput.current.focus();
 				},
 				(error) => {
 					this.setState({
@@ -130,17 +132,22 @@ class Article extends Component {
 	renderList() {
 		let articles = this.state.articles;
 		const articleIdConst = parseInt(this.state.articleId, 10);
-		console.log('const='+articleIdConst);
 		return(
 			<div>
 				<br/>
 			<div className='row'>
 				<div className='col-sm-3'>
+
 					<ul className='nav'>
 						<li className='nav-item'>
 								<a className='nav-link' onClick={this.handleNewArticle} href='#'>New article</a>
 						</li>
 					</ul>
+
+                    <div className='form-group'>
+                        <input ref={this.refSearchInput} type='text' className='form-control' />
+                    </div>
+
 					<div className="list-group">
 						{articles.map((article, key)=>
 		           <Link key={key}
@@ -167,7 +174,7 @@ class Article extends Component {
 						<ModalBody>
 							<div className='form-group'>
 								<label htmlFor='articleTitle'>Title</label>
-								<input type='text' id='articleTitle' className='form-control' onChange={this.handleNewArticleTitle} value={this.newArticleTitle}	/>
+								<input type='text' ref={this.refModalInput} id='articleTitle' className='form-control' onChange={this.handleNewArticleTitle} value={this.newArticleTitle}	/>
 							</div>
 						</ModalBody>
 						<ModalFooter>
