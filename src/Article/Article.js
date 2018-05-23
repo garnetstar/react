@@ -23,6 +23,7 @@ class Article extends Component {
 		this.toggle = this.toggle.bind(this);
 		this.handleSaveArticle = this.handleSaveArticle.bind(this);
 		this.handleNewArticleTitle = this.handleNewArticleTitle.bind(this);
+		this.handleModalKeyPress = this.handleModalKeyPress.bind(this);
 		this.refModalInput = React.createRef();
 		this.refSearchInput = React.createRef();
 	}
@@ -67,13 +68,13 @@ class Article extends Component {
 
 	handleNewArticle(e) {
 		e.preventDefault();
-		console.log(this.state.newArticleTitle);
-		this.setState({ showNewArticleModal: true });
+		this.setState({ showNewArticleModal: true }, function () {
+            this.refModalInput.current.focus();
+        });
 
 	}
 
 	handleSaveArticle(e) {
-		console.log(this.state.newArticleTitle);
 		const callback = function(res) {
 			res.json().then(json => {
 				this.setState({newArticleId: json.article_id});
@@ -117,6 +118,14 @@ class Article extends Component {
 			return(
 				<div>Loading...</div>
 			);
+		}
+	}
+
+	handleModalKeyPress(e) {
+		if(e.key === 'Enter') {
+            e.preventDefault();
+            // console.log(e.key);
+            this.handleSaveArticle(e);
 		}
 	}
 
@@ -174,7 +183,13 @@ class Article extends Component {
 						<ModalBody>
 							<div className='form-group'>
 								<label htmlFor='articleTitle'>Title</label>
-								<input type='text' ref={this.refModalInput} id='articleTitle' className='form-control' onChange={this.handleNewArticleTitle} value={this.newArticleTitle}	/>
+								<input type='text'
+									   ref={this.refModalInput}
+									   id='articleTitle'
+									   className='form-control'
+									   onChange={this.handleNewArticleTitle}
+									   onKeyPress={this.handleModalKeyPress}
+									   value={this.newArticleTitle}	/>
 							</div>
 						</ModalBody>
 						<ModalFooter>
