@@ -24,7 +24,7 @@ class Gym extends Component {
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleGymValue = this.handleGymValue.bind(this);
 		this.handleType = this.handleType.bind(this);
-
+		this.refInputNumber = React.createRef();
 		//form default
 		this.state.type = 2;
 
@@ -37,6 +37,7 @@ class Gym extends Component {
 		});
 
 		this.state.ajaxHelper.gymList(callback, this.state.type);
+		this.refInputNumber.current.focus();
 	}
 
 	render() {
@@ -127,7 +128,7 @@ class Gym extends Component {
 										</div>
 								</div>
 										<div className='form-group'>
-											<input type='number' onChange={this.handleGymValue} value={this.state.gymValue} />
+											<input type='number' onChange={this.handleGymValue} ref={this.refInputNumber} value={this.state.gymValue} />
 											<input type='submit' value='add' />
 										</div>
 							</form>

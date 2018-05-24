@@ -193,7 +193,7 @@ class Article extends Component {
 							</div>
 						</ModalBody>
 						<ModalFooter>
-						<Button color="primary" onClick={this.handleSaveArticle}>Do Something</Button>{' '}
+						<Button color="primary" onClick={this.handleSaveArticle}>Create</Button>{' '}
 						<Button color="secondary" onClick={this.toggle}>Cancel</Button>
 				</ModalFooter>
 			</form>
