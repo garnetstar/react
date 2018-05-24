@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import MarkdownRenderer from 'react-markdown-renderer';
 import AjaxHelperClass from "../ajaxHelper";
-import { Redirect } from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 
 class ArticleEdit extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-      articleId: this.props.articleId,
+			articleId: this.props.articleId,
 			article: null,
 			isLoaded: false,
 			content: this.props.content,
@@ -39,8 +39,8 @@ class ArticleEdit extends Component {
 	}
 
 	handleSubmit(e) {
-	e.preventDefault();
-		const callback = function(res) {
+		e.preventDefault();
+		const callback = function (res) {
 			this.setState({justSaved: true});
 		}.bind(this);
 		console.log(this.state.content);
@@ -53,7 +53,7 @@ class ArticleEdit extends Component {
 		const content = e.target.value;
 		const newArticle = {title: this.state.article.title, content: content};
 		this.setState({
-			article : newArticle,
+			article: newArticle,
 		});
 	}
 
@@ -66,37 +66,48 @@ class ArticleEdit extends Component {
 	}
 
 	render() {
-		if(this.state.justSaved === true) {
+		if (this.state.justSaved === true) {
 			const url = '/article/' + this.state.articleId;
-			return (<Redirect to={url} />);
+			return (<Redirect to={url}/>);
 		}
-		else if(this.state.isLoaded === true) {
-			return(
-				<div className='row'>
-        	<div className='col-sm-6'>
-						<form onSubmit={this.handleSubmit}>
-						<div className='form-group'>
-							<input type='text' onChange={this.handleTitle} value={this.state.article.title} />
+		else if (this.state.isLoaded === true) {
+			return (
+				<form onSubmit={this.handleSubmit}>
+					<br />
+					<div className='row'>
+						<div className='col-sm-12'>
+							<div className='form-group'>
+								<input type='text' onChange={this.handleTitle} value={this.state.article.title}/>
+							</div>
 						</div>
-						<div className="form-group">
-        			<textarea className='form-control' onChange={this.handleContent} value={this.state.article.content} rows='25' />
-						</div>
-						<div className='form-group'>
-							<input type='submit' value='add' />
-						</div>
-					</form>
-        	</div>
-        <div className='col-sm-6'>
-					<div className='border'>
-          	<MarkdownRenderer markdown={this.state.article.content} />
 					</div>
-        </div>
-      </div>
+					<div className='row'>
+						<div className='col-sm-6'>
+							<div className="form-group">
+								<textarea
+									className='form-control'
+									onChange={this.handleContent}
+									value={this.state.article.content}
+									rows='25'
+								/>
+							</div>
+							<div className='form-group'>
+								<input type='submit' value='add'/>
+							</div>
+						</div>
+						<div className='col-sm-6'>
+							<div className='border'>
+								<MarkdownRenderer markdown={this.state.article.content}/>
+							</div>
+						</div>
+
+					</div>
+				</form>
 			);
 		} else {
-      return (
-			<div>Loading ...</div>
-    );
+			return (
+				<div>Loading ...</div>
+			);
 		}
 	}
 }
