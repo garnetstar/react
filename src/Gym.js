@@ -136,7 +136,7 @@ class Gym extends Component {
 						<div className='row'>
 							<div className='col-sm-12'>
 								<div className='img-fluid'>
-								<Chart items={items}  />
+								<Chart items={items}  graphType={this.state.type}/>
 								</div>
 							</div>
 						</div>
